@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Toby's Grill — Official Menu</title>
+  <title>Toby's Grill — Interactive Menu & Order Builder</title>
   
   <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,73 +32,73 @@
       color: var(--text-main);
       font-family: var(--font-body);
       line-height: 1.6;
-      padding: 30px 15px;
+      padding: 20px 15px 100px; /* Extra bottom space for floating cart */
     }
 
     .menu-board {
-      max-width: 850px;
+      max-width: 880px;
       margin: 0 auto;
       background: var(--bg-card);
       border: 2px solid var(--border-color);
       border-radius: 20px;
-      padding: 40px;
+      padding: 32px 24px;
       box-shadow: 0 15px 40px rgba(0,0,0,0.8);
       position: relative;
     }
 
     .menu-header {
       text-align: center;
-      padding-bottom: 24px;
+      padding-bottom: 20px;
       border-bottom: 2px dashed var(--border-color);
-      margin-bottom: 32px;
+      margin-bottom: 28px;
     }
 
     .logo-badge {
-      width: 70px;
-      height: 70px;
+      width: 64px;
+      height: 64px;
       border-radius: 50%;
       border: 2px solid var(--flame-orange);
-      margin: 0 auto 12px;
+      margin: 0 auto 10px;
       object-fit: cover;
     }
 
     .menu-title {
       font-family: var(--font-heading);
-      font-size: 2.2rem;
+      font-size: 2rem;
       font-weight: 900;
       letter-spacing: -0.5px;
     }
 
     .menu-tagline {
       color: var(--flame-yellow);
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-top: 4px;
+      letter-spacing: 1.5px;
+      margin-top: 2px;
     }
 
     .location-text {
       color: var(--text-muted);
-      font-size: 0.85rem;
+      font-size: 0.825rem;
       margin-top: 6px;
     }
 
     .menu-section {
-      margin-bottom: 36px;
+      margin-bottom: 32px;
     }
 
     .section-heading {
       font-family: var(--font-heading);
-      font-size: 1.35rem;
+      font-size: 1.25rem;
       font-weight: 800;
       color: var(--flame-yellow);
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       padding-bottom: 8px;
       border-bottom: 1px solid rgba(255, 210, 63, 0.2);
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
@@ -106,128 +106,189 @@
     .menu-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 20px 30px;
+      gap: 16px 24px;
     }
 
     .menu-item {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 14px;
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
+      transition: border-color 0.2s ease;
+    }
+
+    .menu-item:hover, .menu-item.selected {
+      border-color: var(--flame-orange);
     }
 
     .item-header {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      gap: 10px;
+      gap: 8px;
     }
 
     .item-name {
       font-family: var(--font-heading);
       font-weight: 700;
-      font-size: 1.05rem;
+      font-size: 1rem;
       color: #ffffff;
-    }
-
-    .item-dots {
-      flex-grow: 1;
-      border-bottom: 1px dotted rgba(255, 255, 255, 0.15);
-      margin: 0 8px;
     }
 
     .item-price {
       font-family: var(--font-heading);
       font-weight: 800;
-      font-size: 1rem;
-      color: var(--flame-orange);
+      font-size: 0.95rem;
+      color: var(--flame-yellow);
       white-space: nowrap;
     }
 
     .item-desc {
-      font-size: 0.825rem;
+      font-size: 0.8rem;
       color: var(--text-muted);
-      margin-top: 4px;
+      margin: 4px 0 12px;
+      line-height: 1.45;
     }
 
-    .treat-banner {
-      background: linear-gradient(135deg, rgba(255, 140, 26, 0.15) 0%, rgba(232, 53, 31, 0.15) 100%);
-      border: 1px solid var(--flame-orange);
-      border-radius: 12px;
-      padding: 16px 20px;
-      text-align: center;
-      margin-top: 24px;
+    .item-action-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
     }
 
-    .treat-title {
-      font-family: var(--font-heading);
-      font-weight: 800;
+    .add-btn {
+      background: rgba(255, 140, 26, 0.12);
       color: var(--flame-yellow);
-      font-size: 1.1rem;
+      border: 1px solid var(--border-color);
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .add-btn:hover {
+      background: var(--flame-gradient);
+      color: #fff;
+      border-color: transparent;
+    }
+
+    .qty-controls {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 140, 26, 0.15);
+      border: 1px solid var(--flame-orange);
+      border-radius: 9999px;
+      padding: 3px 8px;
+    }
+
+    .qty-btn {
+      background: none;
+      border: none;
+      color: var(--flame-yellow);
+      font-size: 0.9rem;
+      font-weight: 800;
+      cursor: pointer;
+      width: 24px;
+      height: 24px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      border-radius: 50%;
     }
 
-    .treat-desc {
+    .qty-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .qty-count {
       font-size: 0.85rem;
-      color: var(--text-main);
-      margin-top: 4px;
+      font-weight: 800;
+      color: #ffffff;
+      min-width: 16px;
+      text-align: center;
     }
 
-    .menu-footer {
-      margin-top: 40px;
-      padding-top: 20px;
-      border-top: 2px dashed var(--border-color);
+    /* Floating WhatsApp Cart Bar */
+    .floating-cart {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(120%);
+      width: 90%;
+      max-width: 650px;
+      background: #1c1c1c;
+      border: 2px solid var(--flame-orange);
+      border-radius: 16px;
+      padding: 14px 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
+      gap: 12px;
+      z-index: 1000;
+      transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    .btn-order {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--flame-gradient);
-      color: #fff;
-      padding: 12px 24px;
-      border-radius: 9999px;
+    .floating-cart.active {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .cart-summary {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cart-count-badge {
+      font-size: 0.8rem;
+      color: var(--flame-yellow);
       font-weight: 700;
-      text-decoration: none;
-      font-size: 0.9rem;
-      box-shadow: 0 4px 15px rgba(255,140,26,0.3);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
-    .btn-print {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: transparent;
-      border: 1px solid rgba(245, 241, 234, 0.3);
-      color: var(--text-main);
+    .cart-total-price {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: #ffffff;
+    }
+
+    .btn-send-whatsapp {
+      background: var(--flame-gradient);
+      color: #ffffff;
       padding: 10px 20px;
       border-radius: 9999px;
-      font-weight: 600;
+      font-weight: 800;
+      font-size: 0.9rem;
+      border: none;
       cursor: pointer;
-      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      box-shadow: 0 4px 15px rgba(255, 140, 26, 0.4);
+    }
+
+    .btn-send-whatsapp:hover {
+      transform: scale(1.03);
     }
 
     @media (max-width: 768px) {
-      .menu-board { padding: 24px 16px; }
-      .menu-grid { grid-template-columns: 1fr; gap: 16px; }
-      .menu-title { font-size: 1.75rem; }
-      .menu-footer { flex-direction: column; text-align: center; }
-      .btn-order, .btn-print { width: 100%; justify-content: center; }
-    }
-
-    @media print {
-      body { background: #fff; color: #000; padding: 0; }
-      .menu-board { border: 1px solid #000; box-shadow: none; background: #fff; color: #000; }
-      .item-name { color: #000; }
-      .item-price { color: #d32f2f; }
-      .item-desc { color: #555; }
-      .btn-order, .btn-print { display: none; }
+      .menu-board { padding: 20px 14px; }
+      .menu-grid { grid-template-columns: 1fr; }
+      .floating-cart { width: 94%; padding: 12px 14px; }
+      .cart-total-price { font-size: 1.05rem; }
+      .btn-send-whatsapp { font-size: 0.825rem; padding: 9px 14px; }
     }
   </style>
 </head>
@@ -240,7 +301,7 @@
       <img src="../images/logo.jpg" alt="Toby's Grill Logo" class="logo-badge">
       <h1 class="menu-title">Toby's Grill</h1>
       <div class="menu-tagline">Where Flavour Meets Fire 🔥</div>
-      <div class="location-text">Maweni, Nyali, Mombasa, Kenya ● Call / WhatsApp: 0733 400 065</div>
+      <div class="location-text">Maweni, Nyali, Mombasa ● Tap "+ Add" to build your order!</div>
     </div>
 
     <!-- Section 1: Burgers -->
@@ -248,58 +309,100 @@
       <div class="section-heading"><i class="fas fa-hamburger"></i> Gourmet Burgers (Served with Chips)</div>
       <div class="menu-grid">
         
-        <div class="menu-item">
+        <div class="menu-item" data-id="classic-beef" data-name="Classic Beef Burger" data-price="950">
           <div class="item-header">
             <span class="item-name">Classic Beef Burger</span>
-            <span class="item-dots"></span>
             <span class="item-price">KES 950</span>
           </div>
-          <p class="item-desc">Double grilled beef patty, caramelized onions, lettuce, tomato, house burger sauce</p>
+          <p class="item-desc">Double grilled beef patty, caramelized onions, lettuce, tomato, house sauce</p>
+          <div class="item-action-bar">
+            <button class="add-btn" onclick="addToCart(this)"><i class="fas fa-plus"></i> Add to Order</button>
+            <div class="qty-controls">
+              <button class="qty-btn" onclick="changeQty(this, -1)">-</button>
+              <span class="qty-count">1</span>
+              <button class="qty-btn" onclick="changeQty(this, 1)">+</button>
+            </div>
+          </div>
         </div>
 
-        <div class="menu-item">
+        <div class="menu-item" data-id="chimichurri-burger" data-name="Chimichurri Steak Burger" data-price="1200">
           <div class="item-header">
             <span class="item-name">Chimichurri Steak Burger</span>
-            <span class="item-dots"></span>
             <span class="item-price">KES 1,200</span>
           </div>
           <p class="item-desc">Grilled fillet steak, herby tangy chimichurri, lettuce, tomato, caramelized onions</p>
+          <div class="item-action-bar">
+            <button class="add-btn" onclick="addToCart(this)"><i class="fas fa-plus"></i> Add to Order</button>
+            <div class="qty-controls">
+              <button class="qty-btn" onclick="changeQty(this, -1)">-</button>
+              <span class="qty-count">1</span>
+              <button class="qty-btn" onclick="changeQty(this, 1)">+</button>
+            </div>
+          </div>
         </div>
 
-        <div class="menu-item">
+        <div class="menu-item" data-id="chilli-bullet" data-name="Chilli Bullet Burger" data-price="1050">
           <div class="item-header">
             <span class="item-name">Chilli Bullet Burger</span>
-            <span class="item-dots"></span>
             <span class="item-price">KES 1,050</span>
           </div>
           <p class="item-desc">Grilled beef patty infused with green bullet chillies, caramelized onions, house sauce</p>
+          <div class="item-action-bar">
+            <button class="add-btn" onclick="addToCart(this)"><i class="fas fa-plus"></i> Add to Order</button>
+            <div class="qty-controls">
+              <button class="qty-btn" onclick="changeQty(this, -1)">-</button>
+              <span class="qty-count">1</span>
+              <button class="qty-btn" onclick="changeQty(this, 1)">+</button>
+            </div>
+          </div>
         </div>
 
-        <div class="menu-item">
+        <div class="menu-item" data-id="mushroom-steak-burger" data-name="Mushroom Sauce Steak Burger" data-price="1250">
           <div class="item-header">
-            <span class="item-name">Mushroom Sauce Steak Burger</span>
-            <span class="item-dots"></span>
+            <span class="item-name">Mushroom Steak Burger</span>
             <span class="item-price">KES 1,250</span>
           </div>
           <p class="item-desc">Grilled fillet steak in rich mushroom sauce, lettuce, tomato, caramelized onions</p>
+          <div class="item-action-bar">
+            <button class="add-btn" onclick="addToCart(this)"><i class="fas fa-plus"></i> Add to Order</button>
+            <div class="qty-controls">
+              <button class="qty-btn" onclick="changeQty(this, -1)">-</button>
+              <span class="qty-count">1</span>
+              <button class="qty-btn" onclick="changeQty(this, 1)">+</button>
+            </div>
+          </div>
         </div>
 
-        <div class="menu-item">
+        <div class="menu-item" data-id="chicken-burger" data-name="Grilled Chicken Burger" data-price="950">
           <div class="item-header">
             <span class="item-name">Grilled Chicken Burger</span>
-            <span class="item-dots"></span>
             <span class="item-price">KES 950</span>
           </div>
-          <p class="item-desc">Grilled chicken breast, crisp lettuce, ripe tomato, caramelized onions, house sauce</p>
+          <p class="item-desc">Grilled chicken breast, crisp lettuce, ripe tomato, caramelized onions</p>
+          <div class="item-action-bar">
+            <button class="add-btn" onclick="addToCart(this)"><i class="fas fa-plus"></i> Add to Order</button>
+            <div class="qty-controls">
+              <button class="qty-btn" onclick="changeQty(this, -1)">-</button>
+              <span class="qty-count">1</span>
+              <button class="qty-btn" onclick="changeQty(this, 1)">+</button>
+            </div>
+          </div>
         </div>
 
-        <div class="menu-item">
+        <div class="menu-item" data-id="veggie-burger" data-name="Veggie Burger" data-price="850">
           <div class="item-header">
             <span class="item-name">Veggie Burger</span>
-            <span class="item-dots"></span>
             <span class="item-price">KES 850</span>
           </div>
-          <p class="item-desc">Vegetable patty or double egg, house burger sauce, lettuce, tomato, caramelized onions</p>
+          <p class="item-desc">Vegetable patty or double egg, house burger sauce, lettuce, tomato</p>
+          <div class="item-action-bar">
+            <button class="add-btn" onclick="addToCart(this)"><i class="fas fa-plus"></i> Add to Order</button>
+            <div class="qty-controls">
+              <button class="qty-btn" onclick="changeQty(this, -1)">-</button>
+              <span class="qty-count">1</span>
+              <button class="qty-btn" onclick="changeQty(this, 1)">+</button>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -310,143 +413,238 @@
       <div class="section-heading"><i class="fas fa-drumstick-bite"></i> Steaks & Flame Grills</div>
       <div class="menu-grid">
         
-        <div class="menu-item">
+        <div class="menu-item" data-id="chimichurri-steak" data-name="Chimichurri Fillet Steak" data-price="1600">
           <div class="item-header">
             <span class="item-name">Chimichurri Fillet Steak</span>
-            <span class="item-dots"></span>
             <span class="item-price">KES 1,600</span>
           </div>
-          <p class="item-desc">Grilled beef or chicken fillet topped with signature chimichurri (with chips, mash, or veggies)</p>
+          <p class="item-desc">Grilled fillet steak topped with signature chimichurri (with chips or mash)</p>
+          <div class="item-action-bar">
+            <button class="add-btn" onclick="addToCart(this)"><i class="fas fa-plus"></i> Add to Order</button>
+            <div class="qty-controls">
+              <button class="qty-btn" onclick="changeQty(this, -1)">-</button>
+              <span class="qty-count">1</span>
+              <button class="qty-btn" onclick="changeQty(this, 1)">+</button>
+            </div>
+          </div>
         </div>
 
-        <div class="menu-item">
+        <div class="menu-item" data-id="pepper-steak" data-name="Pepper Sauce Fillet Steak" data-price="1650">
           <div class="item-header">
             <span class="item-name">Pepper Sauce Fillet Steak</span>
-            <span class="item-dots"></span>
             <span class="item-price">KES 1,650</span>
           </div>
           <p class="item-desc">Tender beef fillet steak cooked to perfection in rich peppercorn gravy sauce</p>
+          <div class="item-action-bar">
+            <button class="add-btn" onclick="addToCart(this)"><i class="fas fa-plus"></i> Add to Order</button>
+            <div class="qty-controls">
+              <button class="qty-btn" onclick="changeQty(this, -1)">-</button>
+              <span class="qty-count">1</span>
+              <button class="qty-btn" onclick="changeQty(this, 1)">+</button>
+            </div>
+          </div>
         </div>
 
-        <div class="menu-item">
+        <div class="menu-item" data-id="nyama-choma" data-name="Nyama Choma Specialty" data-price="1400">
           <div class="item-header">
             <span class="item-name">Nyama Choma Specialty</span>
-            <span class="item-dots"></span>
             <span class="item-price">KES 1,400</span>
           </div>
           <p class="item-desc">Slow flame-grilled seasoned cuts cooked over aromatic wood coals</p>
+          <div class="item-action-bar">
+            <button class="add-btn" onclick="addToCart(this)"><i class="fas fa-plus"></i> Add to Order</button>
+            <div class="qty-controls">
+              <button class="qty-btn" onclick="changeQty(this, -1)">-</button>
+              <span class="qty-count">1</span>
+              <button class="qty-btn" onclick="changeQty(this, 1)">+</button>
+            </div>
+          </div>
         </div>
 
       </div>
     </div>
 
-    <!-- Section 3: Starters & Sides -->
+    <!-- Section 3: Starters & Drinks -->
     <div class="menu-section">
-      <div class="section-heading"><i class="fas fa-fire-alt"></i> Starters & Sides</div>
+      <div class="section-heading"><i class="fas fa-glass-martini-alt"></i> Starters & Drinks</div>
       <div class="menu-grid">
         
-        <div class="menu-item">
+        <div class="menu-item" data-id="nundu" data-name="Nundu Specialty" data-price="750">
           <div class="item-header">
             <span class="item-name">Nundu Specialty</span>
-            <span class="item-dots"></span>
             <span class="item-price">KES 750</span>
           </div>
-          <p class="item-desc">Char-grilled tender seasoned specialty cuts</p>
+          <p class="item-desc">Char-grilled tender seasoned cuts</p>
+          <div class="item-action-bar">
+            <button class="add-btn" onclick="addToCart(this)"><i class="fas fa-plus"></i> Add to Order</button>
+            <div class="qty-controls">
+              <button class="qty-btn" onclick="changeQty(this, -1)">-</button>
+              <span class="qty-count">1</span>
+              <button class="qty-btn" onclick="changeQty(this, 1)">+</button>
+            </div>
+          </div>
         </div>
 
-        <div class="menu-item">
+        <div class="menu-item" data-id="paneer-tikka" data-name="Paneer Tikka" data-price="700">
           <div class="item-header">
             <span class="item-name">Paneer Tikka</span>
-            <span class="item-dots"></span>
             <span class="item-price">KES 700</span>
           </div>
-          <p class="item-desc">Marinated cottage cheese cubes grilled with spices over coals</p>
-        </div>
-
-        <div class="menu-item">
-          <div class="item-header">
-            <span class="item-name">Chicken Tikka</span>
-            <span class="item-dots"></span>
-            <span class="item-price">KES 800</span>
+          <p class="item-desc">Marinated cottage cheese cubes grilled over coals</p>
+          <div class="item-action-bar">
+            <button class="add-btn" onclick="addToCart(this)"><i class="fas fa-plus"></i> Add to Order</button>
+            <div class="qty-controls">
+              <button class="qty-btn" onclick="changeQty(this, -1)">-</button>
+              <span class="qty-count">1</span>
+              <button class="qty-btn" onclick="changeQty(this, 1)">+</button>
+            </div>
           </div>
-          <p class="item-desc">Spiced juicy grilled chicken skewers</p>
         </div>
 
-        <div class="menu-item">
-          <div class="item-header">
-            <span class="item-name">Sides Selection</span>
-            <span class="item-dots"></span>
-            <span class="item-price">KES 250 - 350</span>
-          </div>
-          <p class="item-desc">Regular Chips (250), Masala Chips (350), Mashed Potato (300), Naan (150)</p>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Section 4: Drinks & Beverages -->
-    <div class="menu-section">
-      <div class="section-heading"><i class="fas fa-glass-martini-alt"></i> Coffee, Tea & Drinks</div>
-      <div class="menu-grid">
-        
-        <div class="menu-item">
+        <div class="menu-item" data-id="nutella-coffee" data-name="Nutella Coffee" data-price="400">
           <div class="item-header">
             <span class="item-name">Nutella Coffee</span>
-            <span class="item-dots"></span>
             <span class="item-price">KES 400</span>
           </div>
           <p class="item-desc">Espresso with steamed milk and rich Nutella drizzle</p>
+          <div class="item-action-bar">
+            <button class="add-btn" onclick="addToCart(this)"><i class="fas fa-plus"></i> Add to Order</button>
+            <div class="qty-controls">
+              <button class="qty-btn" onclick="changeQty(this, -1)">-</button>
+              <span class="qty-count">1</span>
+              <button class="qty-btn" onclick="changeQty(this, 1)">+</button>
+            </div>
+          </div>
         </div>
 
-        <div class="menu-item">
+        <div class="menu-item" data-id="spiced-chai" data-name="Spiced Chai" data-price="250">
           <div class="item-header">
             <span class="item-name">Spiced Chai</span>
-            <span class="item-dots"></span>
             <span class="item-price">KES 250</span>
           </div>
-          <p class="item-desc">Traditional Kenyan milk tea infused with cardamom and spice blend</p>
-        </div>
-
-        <div class="menu-item">
-          <div class="item-header">
-            <span class="item-name">Mango Lassi & Chaas</span>
-            <span class="item-dots"></span>
-            <span class="item-price">KES 300 - 350</span>
+          <p class="item-desc">Traditional Kenyan milk tea with cardamom spice blend</p>
+          <div class="item-action-bar">
+            <button class="add-btn" onclick="addToCart(this)"><i class="fas fa-plus"></i> Add to Order</button>
+            <div class="qty-controls">
+              <button class="qty-btn" onclick="changeQty(this, -1)">-</button>
+              <span class="qty-count">1</span>
+              <button class="qty-btn" onclick="changeQty(this, 1)">+</button>
+            </div>
           </div>
-          <p class="item-desc">Creamy sweet mango lassi or salted spiced refreshing chaas</p>
-        </div>
-
-        <div class="menu-item">
-          <div class="item-header">
-            <span class="item-name">Lime & Mint Mojito</span>
-            <span class="item-dots"></span>
-            <span class="item-price">KES 400</span>
-          </div>
-          <p class="item-desc">Refreshing mocktail with fresh lime, crushed mint, and soda</p>
         </div>
 
       </div>
-    </div>
-
-    <!-- Complimentary Banner -->
-    <div class="treat-banner">
-      <div class="treat-title"><i class="fas fa-gift"></i> Complimentary House Treat!</div>
-      <div class="treat-desc">Enjoy a warm chocolate brownie topped with vanilla ice cream on the house with every meal!</div>
-    </div>
-
-    <!-- Footer -->
-    <div class="menu-footer">
-      <a href="https://wa.me/254733400065?text=Hi%20Toby's%20Grill,%20I'd%20like%20to%20place%20an%20order%20from%20the%20menu%20%F0%9F%94%A5" 
-         target="_blank" class="btn-order">
-        <i class="fab fa-whatsapp"></i> Order on WhatsApp (0733 400 065)
-      </a>
-
-      <button class="btn-print" onclick="window.print();">
-        <i class="fas fa-print"></i> Print / Save as PDF
-      </button>
     </div>
 
   </div>
 
+  <!-- Floating WhatsApp Order Basket -->
+  <div class="floating-cart" id="floating-cart">
+    <div class="cart-summary">
+      <span class="cart-count-badge" id="cart-count">0 ITEMS SELECTED</span>
+      <span class="cart-total-price" id="cart-price">KES 0</span>
+    </div>
+
+    <a href="#" class="btn-send-whatsapp" id="whatsapp-order-link" target="_blank" onclick="sendOrderToWhatsApp(event)">
+      <i class="fab fa-whatsapp" style="font-size: 1.1rem;"></i> Send Order on WhatsApp 🔥
+    </a>
+  </div>
+
+  <script>
+    // Cart Data Structure: { itemId: { name, price, qty } }
+    const cart = {};
+
+    function addToCart(btnElement) {
+      const itemCard = btnElement.closest('.menu-item');
+      const itemId = itemCard.getAttribute('data-id');
+      const name = itemCard.getAttribute('data-name');
+      const price = parseInt(itemCard.getAttribute('data-price'));
+
+      if (!cart[itemId]) {
+        cart[itemId] = { name, price, qty: 1 };
+      }
+
+      updateItemUI(itemCard, 1);
+      updateFloatingCart();
+    }
+
+    function changeQty(btnElement, delta) {
+      const itemCard = btnElement.closest('.menu-item');
+      const itemId = itemCard.getAttribute('data-id');
+
+      if (cart[itemId]) {
+        cart[itemId].qty += delta;
+
+        if (cart[itemId].qty <= 0) {
+          delete cart[itemId];
+          updateItemUI(itemCard, 0);
+        } else {
+          updateItemUI(itemCard, cart[itemId].qty);
+        }
+      }
+
+      updateFloatingCart();
+    }
+
+    function updateItemUI(itemCard, qty) {
+      const addBtn = itemCard.querySelector('.add-btn');
+      const qtyControls = itemCard.querySelector('.qty-controls');
+      const qtyCount = itemCard.querySelector('.qty-count');
+
+      if (qty > 0) {
+        itemCard.classList.add('selected');
+        addBtn.style.display = 'none';
+        qtyControls.style.display = 'flex';
+        qtyCount.textContent = qty;
+      } else {
+        itemCard.classList.remove('selected');
+        addBtn.style.display = 'inline-flex';
+        qtyControls.style.display = 'none';
+      }
+    }
+
+    function updateFloatingCart() {
+      const floatingCart = document.getElementById('floating-cart');
+      const countBadge = document.getElementById('cart-count');
+      const priceBadge = document.getElementById('cart-price');
+
+      let totalItems = 0;
+      let totalPrice = 0;
+
+      Object.values(cart).forEach(item => {
+        totalItems += item.qty;
+        totalPrice += item.price * item.qty;
+      });
+
+      if (totalItems > 0) {
+        countBadge.textContent = `${totalItems} ${totalItems === 1 ? 'ITEM' : 'ITEMS'} SELECTED`;
+        priceBadge.textContent = `KES ${totalPrice.toLocaleString()}`;
+        floatingCart.classList.add('active');
+      } else {
+        floatingCart.classList.remove('active');
+      }
+    }
+
+    function sendOrderToWhatsApp(e) {
+      e.preventDefault();
+
+      let orderText = "Hi Toby's Grill! 🔥 I'd like to place an order:\n\n";
+      let totalPrice = 0;
+
+      Object.values(cart).forEach(item => {
+        const itemTotal = item.price * item.qty;
+        totalPrice += itemTotal;
+        orderText += `• ${item.qty}x ${item.name} (KES ${itemTotal.toLocaleString()})\n`;
+      });
+
+      orderText += `\nTotal: KES ${totalPrice.toLocaleString()}\n\n`;
+      orderText += `Delivery / Pickup Details:\n[Please enter your Name & Location / Table No.]`;
+
+      const encodedText = encodeURIComponent(orderText);
+      const whatsappURL = `https://wa.me/254733400065?text=${encodedText}`;
+
+      window.open(whatsappURL, '_blank');
+    }
+  </script>
 </body>
 </html>

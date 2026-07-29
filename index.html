@@ -25,6 +25,146 @@
   
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="css/styles.css">
+
+  <style>
+    /* Interactive Order Action Styling */
+    .menu-item-cart-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .add-to-cart-btn {
+      background: rgba(255, 140, 26, 0.12);
+      color: var(--flame-yellow);
+      border: 1px solid var(--border-flame);
+      padding: 8px 16px;
+      border-radius: var(--radius-pill);
+      font-size: 0.825rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all var(--transition-fast);
+    }
+
+    .add-to-cart-btn:hover {
+      background: var(--flame-gradient);
+      color: #ffffff;
+      border-color: transparent;
+    }
+
+    .card-qty-controls {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 140, 26, 0.15);
+      border: 1px solid var(--flame-orange);
+      border-radius: var(--radius-pill);
+      padding: 4px 10px;
+    }
+
+    .card-qty-btn {
+      background: none;
+      border: none;
+      color: var(--flame-yellow);
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+
+    .card-qty-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .card-qty-count {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #ffffff;
+      min-width: 18px;
+      text-align: center;
+    }
+
+    /* Floating WhatsApp Cart Bar */
+    .main-floating-cart {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(140%);
+      width: 90%;
+      max-width: 680px;
+      background: #1c1c1c;
+      border: 2px solid var(--flame-orange);
+      border-radius: var(--radius-lg);
+      padding: 14px 22px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 1500;
+      transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .main-floating-cart.active {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .cart-summary {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cart-count-badge {
+      font-size: 0.775rem;
+      color: var(--flame-yellow);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    .cart-total-price {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: #ffffff;
+    }
+
+    .btn-send-whatsapp-cart {
+      background: var(--flame-gradient);
+      color: #ffffff;
+      padding: 10px 22px;
+      border-radius: var(--radius-pill);
+      font-weight: 800;
+      font-size: 0.9rem;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      box-shadow: var(--shadow-flame);
+    }
+
+    .btn-send-whatsapp-cart:hover {
+      transform: scale(1.03);
+    }
+
+    @media (max-width: 768px) {
+      .main-floating-cart { width: 94%; padding: 12px 16px; bottom: 16px; }
+      .cart-total-price { font-size: 1.05rem; }
+      .btn-send-whatsapp-cart { font-size: 0.825rem; padding: 9px 16px; }
+    }
+  </style>
 </head>
 <body>
 
@@ -166,7 +306,7 @@
       <div class="section-header">
         <div class="section-tag"><i class="fas fa-utensils"></i> Our Menu</div>
         <h2 class="section-title">Crafted Over <span class="text-gradient">Open Flames</span></h2>
-        <p class="section-subtitle">A curated selection of our guest-favorite burgers, steaks, grills, and spiced drinks.</p>
+        <p class="section-subtitle">Tap "+ Add to Order" on any dish to build your custom WhatsApp order!</p>
       </div>
 
       <!-- Menu Category Filters -->
@@ -182,7 +322,7 @@
       <div class="menu-grid">
         
         <!-- Chilli Bullet Burger -->
-        <div class="menu-card" data-category="burgers">
+        <div class="menu-card" data-category="burgers" data-id="chilli-bullet-main" data-name="Chilli Bullet Burger" data-price="1050">
           <div class="menu-card-img-wrapper">
             <img src="assets/images/chilli_bullet_burger.jpg" alt="Chilli Bullet Burger" class="menu-card-img">
             <span class="menu-card-tag">Chef's Choice</span>
@@ -196,16 +336,22 @@
               Grilled beef patty infused with fiery bullet chillies, caramelized onions, and house burger sauce. Served with chips.
             </p>
             <div class="menu-card-footer">
-              <a href="https://wa.me/254733400065?text=Hi%20Toby's%20Grill,%20I'd%20like%20to%20order%20the%20Chilli%20Bullet%20Burger%20%F0%9F%94%A5" 
-                 target="_blank" class="order-link-btn">
-                <i class="fab fa-whatsapp"></i> Order This
-              </a>
+              <div class="menu-item-cart-actions">
+                <button class="add-to-cart-btn" onclick="addCardToCart(this)">
+                  <i class="fas fa-plus"></i> Add to Order
+                </button>
+                <div class="card-qty-controls">
+                  <button class="card-qty-btn" onclick="changeCardQty(this, -1)">-</button>
+                  <span class="card-qty-count">1</span>
+                  <button class="card-qty-btn" onclick="changeCardQty(this, 1)">+</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Chimichurri Steak Burger -->
-        <div class="menu-card" data-category="burgers">
+        <div class="menu-card" data-category="burgers" data-id="chimichurri-steak-burger-main" data-name="Chimichurri Steak Burger" data-price="1200">
           <div class="menu-card-img-wrapper">
             <img src="assets/images/chimichurri_steak_burger.jpg" alt="Chimichurri Steak Burger" class="menu-card-img">
             <span class="menu-card-tag">Signature</span>
@@ -219,16 +365,22 @@
               Grilled tender fillet steak layered with herby tangy house chimichurri, lettuce, tomato, & caramelized onions.
             </p>
             <div class="menu-card-footer">
-              <a href="https://wa.me/254733400065?text=Hi%20Toby's%20Grill,%20I'd%20like%20to%20order%20the%20Chimichurri%20Steak%20Burger%20%F0%9F%94%A5" 
-                 target="_blank" class="order-link-btn">
-                <i class="fab fa-whatsapp"></i> Order This
-              </a>
+              <div class="menu-item-cart-actions">
+                <button class="add-to-cart-btn" onclick="addCardToCart(this)">
+                  <i class="fas fa-plus"></i> Add to Order
+                </button>
+                <div class="card-qty-controls">
+                  <button class="card-qty-btn" onclick="changeCardQty(this, -1)">-</button>
+                  <span class="card-qty-count">1</span>
+                  <button class="card-qty-btn" onclick="changeCardQty(this, 1)">+</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Chimichurri Fillet Steak -->
-        <div class="menu-card" data-category="steaks">
+        <div class="menu-card" data-category="steaks" data-id="chimichurri-fillet-steak-main" data-name="Chimichurri Fillet Steak" data-price="1600">
           <div class="menu-card-img-wrapper">
             <img src="assets/images/chimichurri_fillet_steak.jpg" alt="Chimichurri Fillet Steak" class="menu-card-img">
             <span class="menu-card-tag">Popular</span>
@@ -242,16 +394,22 @@
               Flame-grilled chicken or beef fillet steak coated in signature chimichurri. Choice of chips, mash, or grilled veggies.
             </p>
             <div class="menu-card-footer">
-              <a href="https://wa.me/254733400065?text=Hi%20Toby's%20Grill,%20I'd%20like%20to%20order%20the%20Chimichurri%20Fillet%20Steak%20%F0%9F%94%A5" 
-                 target="_blank" class="order-link-btn">
-                <i class="fab fa-whatsapp"></i> Order This
-              </a>
+              <div class="menu-item-cart-actions">
+                <button class="add-to-cart-btn" onclick="addCardToCart(this)">
+                  <i class="fas fa-plus"></i> Add to Order
+                </button>
+                <div class="card-qty-controls">
+                  <button class="card-qty-btn" onclick="changeCardQty(this, -1)">-</button>
+                  <span class="card-qty-count">1</span>
+                  <button class="card-qty-btn" onclick="changeCardQty(this, 1)">+</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Classic Beef Burger -->
-        <div class="menu-card" data-category="burgers">
+        <div class="menu-card" data-category="burgers" data-id="classic-beef-main" data-name="Classic Beef Burger" data-price="950">
           <div class="menu-card-img-wrapper">
             <img src="assets/images/chilli_bullet_burger.jpg" alt="Classic Beef Burger" class="menu-card-img">
           </div>
@@ -264,16 +422,22 @@
               Double grilled beef patty, caramelized onions, crisp lettuce, ripe tomato, and Toby's house burger sauce.
             </p>
             <div class="menu-card-footer">
-              <a href="https://wa.me/254733400065?text=Hi%20Toby's%20Grill,%20I'd%20like%20to%20order%20the%20Classic%20Beef%20Burger%20%F0%9F%94%A5" 
-                 target="_blank" class="order-link-btn">
-                <i class="fab fa-whatsapp"></i> Order This
-              </a>
+              <div class="menu-item-cart-actions">
+                <button class="add-to-cart-btn" onclick="addCardToCart(this)">
+                  <i class="fas fa-plus"></i> Add to Order
+                </button>
+                <div class="card-qty-controls">
+                  <button class="card-qty-btn" onclick="changeCardQty(this, -1)">-</button>
+                  <span class="card-qty-count">1</span>
+                  <button class="card-qty-btn" onclick="changeCardQty(this, 1)">+</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Spiced Chai & Coffee -->
-        <div class="menu-card" data-category="sides-drinks">
+        <div class="menu-card" data-category="sides-drinks" data-id="nutella-coffee-main" data-name="Nutella Coffee / Spiced Chai" data-price="400">
           <div class="menu-card-img-wrapper">
             <img src="assets/images/spiced_chai_coffee.jpg" alt="Spiced Chai & Specialty Coffee" class="menu-card-img">
             <span class="menu-card-tag">Specialty Drink</span>
@@ -281,38 +445,50 @@
           <div class="menu-card-content">
             <div class="menu-card-header">
               <h3 class="menu-card-title">Spiced Chai & Nutella Coffee</h3>
-              <span class="menu-card-price">KES 250 - 400</span>
+              <span class="menu-card-price">KES 400</span>
             </div>
             <p class="menu-card-desc">
               Traditional milk chai infused with cardamom, Nutella coffee with steamed milk, or strong coffee with condensed milk.
             </p>
             <div class="menu-card-footer">
-              <a href="https://wa.me/254733400065?text=Hi%20Toby's%20Grill,%20I'd%20like%20to%20order%20Spiced%20Chai%20or%20Coffee%20%F0%9F%94%A5" 
-                 target="_blank" class="order-link-btn">
-                <i class="fab fa-whatsapp"></i> Order This
-              </a>
+              <div class="menu-item-cart-actions">
+                <button class="add-to-cart-btn" onclick="addCardToCart(this)">
+                  <i class="fas fa-plus"></i> Add to Order
+                </button>
+                <div class="card-qty-controls">
+                  <button class="card-qty-btn" onclick="changeCardQty(this, -1)">-</button>
+                  <span class="card-qty-count">1</span>
+                  <button class="card-qty-btn" onclick="changeCardQty(this, 1)">+</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Starters & Tikka -->
-        <div class="menu-card" data-category="starters">
+        <div class="menu-card" data-category="starters" data-id="paneer-tikka-main" data-name="Paneer & Chicken Tikka Starter" data-price="750">
           <div class="menu-card-img-wrapper">
             <img src="assets/images/hero_bg.jpg" alt="Nundu & Chicken Tikka Starters" class="menu-card-img">
           </div>
           <div class="menu-card-content">
             <div class="menu-card-header">
               <h3 class="menu-card-title">Nundu, Paneer & Chicken Tikka</h3>
-              <span class="menu-card-price">KES 700 - 800</span>
+              <span class="menu-card-price">KES 750</span>
             </div>
             <p class="menu-card-desc">
               Char-grilled starters including tender Nundu, spiced Paneer Tikka, and juicy Chicken Tikka skewers.
             </p>
             <div class="menu-card-footer">
-              <a href="https://wa.me/254733400065?text=Hi%20Toby's%20Grill,%20I'd%20like%20to%20order%20Starters%20(Nundu%2FPaneer%2FChicken%20Tikka)%20%F0%9F%94%A5" 
-                 target="_blank" class="order-link-btn">
-                <i class="fab fa-whatsapp"></i> Order This
-              </a>
+              <div class="menu-item-cart-actions">
+                <button class="add-to-cart-btn" onclick="addCardToCart(this)">
+                  <i class="fas fa-plus"></i> Add to Order
+                </button>
+                <div class="card-qty-controls">
+                  <button class="card-qty-btn" onclick="changeCardQty(this, -1)">-</button>
+                  <span class="card-qty-count">1</span>
+                  <button class="card-qty-btn" onclick="changeCardQty(this, 1)">+</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -321,9 +497,9 @@
 
       <!-- Menu Modal Trigger Button -->
       <div class="menu-cta-banner">
-        <button class="btn btn-flame" id="view-full-menu-btn">
-          <i class="fas fa-file-pdf"></i> View / Download Full Menu
-        </button>
+        <a href="assets/menu/menu.html" target="_blank" class="btn btn-flame">
+          <i class="fas fa-utensils"></i> Open Interactive Digital Menu
+        </a>
       </div>
     </div>
   </section>
@@ -569,6 +745,18 @@
     </div>
   </footer>
 
+  <!-- Floating WhatsApp Order Cart Bar -->
+  <div class="main-floating-cart" id="main-floating-cart">
+    <div class="cart-summary">
+      <span class="cart-count-badge" id="main-cart-count">0 ITEMS SELECTED</span>
+      <span class="cart-total-price" id="main-cart-price">KES 0</span>
+    </div>
+
+    <a href="#" class="btn-send-whatsapp-cart" id="main-whatsapp-order-link" onclick="sendMainOrderToWhatsApp(event)">
+      <i class="fab fa-whatsapp" style="font-size: 1.15rem;"></i> Send Order on WhatsApp 🔥
+    </a>
+  </div>
+
   <!-- Lightbox Modal -->
   <div class="modal-overlay" id="lightbox-modal">
     <div style="position: relative; max-width: 900px; text-align: center;">
@@ -580,5 +768,100 @@
 
   <!-- Main JavaScript -->
   <script src="js/main.js"></script>
+
+  <script>
+    // Global Cart State for Main Page
+    const mainCart = {};
+
+    function addCardToCart(btnElement) {
+      const card = btnElement.closest('.menu-card');
+      const id = card.getAttribute('data-id');
+      const name = card.getAttribute('data-name');
+      const price = parseInt(card.getAttribute('data-price'));
+
+      if (!mainCart[id]) {
+        mainCart[id] = { name, price, qty: 1 };
+      }
+
+      updateCardUI(card, 1);
+      updateMainFloatingCart();
+    }
+
+    function changeCardQty(btnElement, delta) {
+      const card = btnElement.closest('.menu-card');
+      const id = card.getAttribute('data-id');
+
+      if (mainCart[id]) {
+        mainCart[id].qty += delta;
+
+        if (mainCart[id].qty <= 0) {
+          delete mainCart[id];
+          updateCardUI(card, 0);
+        } else {
+          updateCardUI(card, mainCart[id].qty);
+        }
+      }
+
+      updateMainFloatingCart();
+    }
+
+    function updateCardUI(card, qty) {
+      const addBtn = card.querySelector('.add-to-cart-btn');
+      const qtyControls = card.querySelector('.card-qty-controls');
+      const qtyCount = card.querySelector('.card-qty-count');
+
+      if (qty > 0) {
+        addBtn.style.display = 'none';
+        qtyControls.style.display = 'flex';
+        qtyCount.textContent = qty;
+      } else {
+        addBtn.style.display = 'inline-flex';
+        qtyControls.style.display = 'none';
+      }
+    }
+
+    function updateMainFloatingCart() {
+      const cartBar = document.getElementById('main-floating-cart');
+      const countBadge = document.getElementById('main-cart-count');
+      const priceBadge = document.getElementById('main-cart-price');
+
+      let totalItems = 0;
+      let totalPrice = 0;
+
+      Object.values(mainCart).forEach(item => {
+        totalItems += item.qty;
+        totalPrice += item.price * item.qty;
+      });
+
+      if (totalItems > 0) {
+        countBadge.textContent = `${totalItems} ${totalItems === 1 ? 'ITEM' : 'ITEMS'} SELECTED`;
+        priceBadge.textContent = `KES ${totalPrice.toLocaleString()}`;
+        cartBar.classList.add('active');
+      } else {
+        cartBar.classList.remove('active');
+      }
+    }
+
+    function sendMainOrderToWhatsApp(e) {
+      e.preventDefault();
+
+      let orderText = "Hi Toby's Grill! 🔥 I'd like to place an order:\n\n";
+      let totalPrice = 0;
+
+      Object.values(mainCart).forEach(item => {
+        const itemTotal = item.price * item.qty;
+        totalPrice += itemTotal;
+        orderText += `• ${item.qty}x ${item.name} (KES ${itemTotal.toLocaleString()})\n`;
+      });
+
+      orderText += `\nTotal: KES ${totalPrice.toLocaleString()}\n\n`;
+      orderText += `Delivery / Pickup Details:\n[Please enter your Name & Location / Table No.]`;
+
+      const encodedText = encodeURIComponent(orderText);
+      const whatsappURL = `https://wa.me/254733400065?text=${encodedText}`;
+
+      window.open(whatsappURL, '_blank');
+    }
+  </script>
 </body>
 </html>
