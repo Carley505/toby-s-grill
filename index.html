@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Toby's Grill | Burgers, Steaks & BBQ in Nyali, Mombasa</title>
   
   <!-- SEO & Social Meta Tags -->
@@ -27,27 +27,32 @@
   <link rel="stylesheet" href="css/styles.css">
 
   <style>
+    body {
+      padding-bottom: 100px;
+    }
+
     /* Interactive Order Action Styling */
     .menu-item-cart-actions {
       display: flex;
       align-items: center;
       justify-content: space-between;
       width: 100%;
-      margin-top: 10px;
+      margin-top: 8px;
     }
 
     .add-to-cart-btn {
       background: rgba(255, 140, 26, 0.12);
       color: var(--flame-yellow);
       border: 1px solid var(--border-flame);
-      padding: 8px 16px;
+      padding: 6px 14px;
       border-radius: var(--radius-pill);
-      font-size: 0.825rem;
+      font-size: 0.775rem;
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
+      white-space: nowrap;
       transition: all var(--transition-fast);
     }
 
@@ -60,22 +65,22 @@
     .card-qty-controls {
       display: none;
       align-items: center;
-      gap: 8px;
-      background: rgba(255, 140, 26, 0.15);
+      gap: 6px;
+      background: rgba(255, 140, 26, 0.18);
       border: 1px solid var(--flame-orange);
       border-radius: var(--radius-pill);
-      padding: 4px 10px;
+      padding: 3px 8px;
     }
 
     .card-qty-btn {
       background: none;
       border: none;
       color: var(--flame-yellow);
-      font-size: 1rem;
+      font-size: 0.9rem;
       font-weight: 800;
       cursor: pointer;
-      width: 26px;
-      height: 26px;
+      width: 24px;
+      height: 24px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -87,32 +92,32 @@
     }
 
     .card-qty-count {
-      font-size: 0.9rem;
+      font-size: 0.825rem;
       font-weight: 800;
       color: #ffffff;
-      min-width: 18px;
+      min-width: 16px;
       text-align: center;
     }
 
-    /* Floating WhatsApp Cart Bar */
+    /* Fully Mobile-Optimized Floating Cart Bar */
     .main-floating-cart {
       position: fixed;
-      bottom: 24px;
+      bottom: max(12px, env(safe-area-inset-bottom));
       left: 50%;
       transform: translateX(-50%) translateY(140%);
-      width: 90%;
-      max-width: 680px;
-      background: #1c1c1c;
-      border: 2px solid var(--flame-orange);
-      border-radius: var(--radius-lg);
-      padding: 14px 22px;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.95);
+      width: calc(100% - 20px);
+      max-width: 500px;
+      background: #181818;
+      border: 1.5px solid var(--flame-orange);
+      border-radius: 14px;
+      padding: 10px 14px;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.95);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      gap: 10px;
       z-index: 1500;
-      transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     .main-floating-cart.active {
@@ -122,47 +127,52 @@
     .cart-summary {
       display: flex;
       flex-direction: column;
+      min-width: 100px;
     }
 
     .cart-count-badge {
-      font-size: 0.775rem;
+      font-size: 0.725rem;
       color: var(--flame-yellow);
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.6px;
+      letter-spacing: 0.4px;
+      white-space: nowrap;
     }
 
     .cart-total-price {
       font-family: var(--font-heading);
-      font-size: 1.25rem;
+      font-size: 1.05rem;
       font-weight: 900;
       color: #ffffff;
+      line-height: 1.2;
     }
 
     .btn-send-whatsapp-cart {
       background: var(--flame-gradient);
       color: #ffffff;
-      padding: 10px 22px;
+      padding: 9px 16px;
       border-radius: var(--radius-pill);
       font-weight: 800;
-      font-size: 0.9rem;
+      font-size: 0.825rem;
       border: none;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
       box-shadow: var(--shadow-flame);
     }
 
     .btn-send-whatsapp-cart:hover {
-      transform: scale(1.03);
+      transform: scale(1.02);
     }
 
     @media (max-width: 768px) {
-      .main-floating-cart { width: 94%; padding: 12px 16px; bottom: 16px; }
-      .cart-total-price { font-size: 1.05rem; }
-      .btn-send-whatsapp-cart { font-size: 0.825rem; padding: 9px 16px; }
+      .main-floating-cart { width: calc(100% - 16px); padding: 8px 12px; }
+      .cart-total-price { font-size: 0.975rem; }
+      .btn-send-whatsapp-cart { font-size: 0.775rem; padding: 8px 12px; }
     }
   </style>
 </head>
@@ -748,12 +758,12 @@
   <!-- Floating WhatsApp Order Cart Bar -->
   <div class="main-floating-cart" id="main-floating-cart">
     <div class="cart-summary">
-      <span class="cart-count-badge" id="main-cart-count">0 ITEMS SELECTED</span>
+      <span class="cart-count-badge" id="main-cart-count">0 ITEMS</span>
       <span class="cart-total-price" id="main-cart-price">KES 0</span>
     </div>
 
     <a href="#" class="btn-send-whatsapp-cart" id="main-whatsapp-order-link" onclick="sendMainOrderToWhatsApp(event)">
-      <i class="fab fa-whatsapp" style="font-size: 1.15rem;"></i> Send Order on WhatsApp 🔥
+      <i class="fab fa-whatsapp"></i> Order on WhatsApp
     </a>
   </div>
 
@@ -834,7 +844,7 @@
       });
 
       if (totalItems > 0) {
-        countBadge.textContent = `${totalItems} ${totalItems === 1 ? 'ITEM' : 'ITEMS'} SELECTED`;
+        countBadge.textContent = `${totalItems} ${totalItems === 1 ? 'ITEM' : 'ITEMS'}`;
         priceBadge.textContent = `KES ${totalPrice.toLocaleString()}`;
         cartBar.classList.add('active');
       } else {
