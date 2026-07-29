@@ -1,6 +1,6 @@
 /* ==========================================================================
    TOBY'S GRILL — Interactive JavaScript Logic
-   Includes: Navigation, Menu Filtering, Lightbox Modal, PDF Defensive Fallback
+   Includes: Navigation, Menu Filtering, Lightbox Modal, Menu PDF & Digital Mockup Viewer
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize Gallery Lightbox
   initGalleryLightbox();
 
-  // Initialize Menu PDF / Lightbox Handler
+  // Initialize Menu Viewer Handler
   initMenuModalHandler();
 
   // Initialize Scroll Entrance Animations
@@ -29,7 +29,7 @@ function initHeaderScroll() {
   if (!header) return;
 
   const handleScroll = () => {
-    if (window.scrollY > 40) {
+    if (window.scrollY > 30) {
       header.classList.add('scrolled');
     } else {
       header.classList.remove('scrolled');
@@ -139,48 +139,46 @@ function initGalleryLightbox() {
   });
 }
 
-/* --- Menu Modal / PDF Fallback Handler --- */
+/* --- Menu Viewer / PDF Defensive Handler --- */
 function initMenuModalHandler() {
   const menuModalBtn = document.getElementById('view-full-menu-btn');
   const menuModal = document.getElementById('menu-modal');
   const menuModalClose = document.getElementById('menu-modal-close');
 
-  if (!menuModalBtn || !menuModal) return;
+  if (!menuModalBtn) return;
 
   menuModalBtn.addEventListener('click', (e) => {
     e.preventDefault();
 
-    // Check if menu.pdf exists via fetch
+    // First check if menu.pdf exists
     fetch('assets/menu/menu.pdf', { method: 'HEAD' })
       .then(response => {
         if (response.ok) {
-          // PDF exists, open directly
           window.open('assets/menu/menu.pdf', '_blank');
         } else {
-          // PDF does not exist yet, show fallback modal gracefully
-          openMenuModal();
+          // Open digital menu mockup page
+          window.open('assets/menu/menu.html', '_blank');
         }
       })
       .catch(() => {
-        // Fallback open modal on error
-        openMenuModal();
+        // Fallback open digital menu page
+        window.open('assets/menu/menu.html', '_blank');
       });
   });
 
-  function openMenuModal() {
-    menuModal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
-
   function closeMenuModal() {
-    menuModal.classList.remove('active');
-    document.body.style.overflow = '';
+    if (menuModal) {
+      menuModal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
   }
 
   if (menuModalClose) menuModalClose.addEventListener('click', closeMenuModal);
-  menuModal.addEventListener('click', (e) => {
-    if (e.target === menuModal) closeMenuModal();
-  });
+  if (menuModal) {
+    menuModal.addEventListener('click', (e) => {
+      if (e.target === menuModal) closeMenuModal();
+    });
+  }
 }
 
 /* --- Scroll Entrance Animations --- */

@@ -87,8 +87,8 @@
             <i class="fab fa-whatsapp"></i> Order on WhatsApp
           </a>
 
-          <a href="#menu" class="btn btn-outline">
-            <i class="fas fa-utensils"></i> View Menu
+          <a href="assets/menu/menu.html" target="_blank" class="btn btn-outline">
+            <i class="fas fa-utensils"></i> View Full Menu
           </a>
         </div>
 
@@ -190,7 +190,7 @@
           <div class="menu-card-content">
             <div class="menu-card-header">
               <h3 class="menu-card-title">Chilli Bullet Burger</h3>
-              <span class="menu-card-price">[KES — Confirm]</span>
+              <span class="menu-card-price">KES 1,050</span>
             </div>
             <p class="menu-card-desc">
               Grilled beef patty infused with fiery bullet chillies, caramelized onions, and house burger sauce. Served with chips.
@@ -213,7 +213,7 @@
           <div class="menu-card-content">
             <div class="menu-card-header">
               <h3 class="menu-card-title">Chimichurri Steak Burger</h3>
-              <span class="menu-card-price">[KES — Confirm]</span>
+              <span class="menu-card-price">KES 1,200</span>
             </div>
             <p class="menu-card-desc">
               Grilled tender fillet steak layered with herby tangy house chimichurri, lettuce, tomato, & caramelized onions.
@@ -236,7 +236,7 @@
           <div class="menu-card-content">
             <div class="menu-card-header">
               <h3 class="menu-card-title">Chimichurri Fillet Steak</h3>
-              <span class="menu-card-price">[KES — Confirm]</span>
+              <span class="menu-card-price">KES 1,600</span>
             </div>
             <p class="menu-card-desc">
               Flame-grilled chicken or beef fillet steak coated in signature chimichurri. Choice of chips, mash, or grilled veggies.
@@ -258,7 +258,7 @@
           <div class="menu-card-content">
             <div class="menu-card-header">
               <h3 class="menu-card-title">Classic Beef Burger</h3>
-              <span class="menu-card-price">[KES — Confirm]</span>
+              <span class="menu-card-price">KES 950</span>
             </div>
             <p class="menu-card-desc">
               Double grilled beef patty, caramelized onions, crisp lettuce, ripe tomato, and Toby's house burger sauce.
@@ -281,7 +281,7 @@
           <div class="menu-card-content">
             <div class="menu-card-header">
               <h3 class="menu-card-title">Spiced Chai & Nutella Coffee</h3>
-              <span class="menu-card-price">[KES — Confirm]</span>
+              <span class="menu-card-price">KES 250 - 400</span>
             </div>
             <p class="menu-card-desc">
               Traditional milk chai infused with cardamom, Nutella coffee with steamed milk, or strong coffee with condensed milk.
@@ -303,7 +303,7 @@
           <div class="menu-card-content">
             <div class="menu-card-header">
               <h3 class="menu-card-title">Nundu, Paneer & Chicken Tikka</h3>
-              <span class="menu-card-price">[KES — Confirm]</span>
+              <span class="menu-card-price">KES 700 - 800</span>
             </div>
             <p class="menu-card-desc">
               Char-grilled starters including tender Nundu, spiced Paneer Tikka, and juicy Chicken Tikka skewers.
@@ -575,30 +575,6 @@
       <button class="modal-close-btn" id="lightbox-close" aria-label="Close Lightbox">&times;</button>
       <img src="" alt="" id="lightbox-img" class="lightbox-img">
       <div id="lightbox-caption" style="margin-top: 16px; color: var(--text-main); font-family: var(--font-heading); font-size: 1.1rem;"></div>
-    </div>
-  </div>
-
-  <!-- Menu PDF / Fallback Modal -->
-  <div class="modal-overlay" id="menu-modal">
-    <div class="modal-container">
-      <button class="modal-close-btn" id="menu-modal-close" aria-label="Close Menu Modal">&times;</button>
-      <div style="text-align: center; margin-bottom: 24px;">
-        <i class="fas fa-file-pdf" style="font-size: 3rem; color: var(--flame-yellow); margin-bottom: 12px;"></i>
-        <h3 style="font-family: var(--font-heading); font-size: 1.75rem; font-weight: 800;">Full Menu PDF</h3>
-        <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 8px;">
-          The downloadable PDF menu file is being updated by the kitchen. In the meantime, you can explore all items directly on our website or request a menu copy on WhatsApp!
-        </p>
-      </div>
-
-      <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 24px;">
-        <a href="https://wa.me/254733400065?text=Hi%20Toby's%20Grill,%20please%20send%20me%20your%20full%20menu%20PDF%20or%20images%20%F0%9F%94%A5" 
-           target="_blank" class="btn btn-flame">
-          <i class="fab fa-whatsapp"></i> Request Menu PDF on WhatsApp
-        </a>
-        <a href="#menu" class="btn btn-outline" onclick="document.getElementById('menu-modal').classList.remove('active'); document.body.style.overflow='';">
-          <i class="fas fa-utensils"></i> Browse Website Menu Items
-        </a>
-      </div>
     </div>
   </div>
 
